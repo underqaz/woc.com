@@ -33,8 +33,8 @@ public class AdminController {
      * 根据用户名删除账户
      * @param username
      */
-    @GetMapping("/deleteAccount/{username}")
-    public Integer deleteAccount(@PathVariable  String username){
+    @PostMapping("/deleteAccount")
+    public Integer deleteAccount(String username){
 
         //todo
       return  userService.deleteByName(username);

@@ -19,7 +19,7 @@ public interface UserMapper {
 
     Integer selectAllNums();
 
-    String selectByName(@Param("username")String username);
+    String selectByName(@Param("username") String username);
 
     void insert(Account account);
 

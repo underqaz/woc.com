@@ -1,7 +1,9 @@
 package com.example.woc.controller;
 
 import com.example.woc.entity.Account;
+import com.example.woc.entity.User;
 import com.example.woc.service.UserService;
+import com.example.woc.utils.JsonResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +35,7 @@ public class UserController {
     public void uploadUsername(Account account) {
         userService.register(account);
         //todo
-
+//        return new JsonResult(200);
     }
 
     /**
@@ -41,13 +43,19 @@ public class UserController {
      * @param account
      * @return 是否登录成功
      */
-    @GetMapping("/login")
+    @PostMapping("/login")
     public Boolean login(Account account) {
         //todo
 
-
         return userService.load(account);
     }
+
+    @PostMapping("/test")
+    public JsonResult<String> test(User user){
+        return new JsonResult<String>(200,userService.selcetByName(user.getName()), user.getName());
+    }
+
+
 
 }
 

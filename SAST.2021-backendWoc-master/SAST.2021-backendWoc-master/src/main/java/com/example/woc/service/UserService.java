@@ -25,16 +25,17 @@ public class UserService {
 
     public void register(Account account){
       String username = userMapper.selectByName(account.getUsername());
-       if(username.equals(account.getUsername())){
+       if(username!=null&&username.equals(account.getUsername())){
            System.out.println("用户名已存在");
            return;
-       }else{
+       }else if(username==null){
            String salt= UUID.randomUUID().toString().toUpperCase();
            account.setSalt(salt);
            account.setPassword(encrypt(salt,account.getPassword()));
            userMapper.insert(account);
            System.out.println("注册成功");
        }
+
     }
 
     public String encrypt(String salt,String password){
@@ -45,11 +46,21 @@ public class UserService {
         return password;
     }
 
-    public boolean load(Account account){
-        String password=encrypt(account.getSalt(),account.getPassword());
-        Account a=userMapper.findAccount(account.getUsername());
-        if(a.getPassword().equals(password)) return true;
-        else return false;
+    public boolean load(Account account) {
+        String username=userMapper.selectByName(account.getUsername());
+        if (username!=null) {
+            Account a = userMapper.findAccount(username);
+            String password = encrypt(a.getSalt(), account.getPassword());
+            if (a.getPassword().equals(password)) {
+                System.out.println("登陆成功！");
+                return true;
+            }
+            else return false;
+        }else {
+            System.out.println("用户名不存在");
+            return false;
+        }
+
     }
 
     public Integer getAmount(){
@@ -58,5 +69,9 @@ public class UserService {
 
     public Integer deleteByName(String username){
        return userMapper.deleteByName(username);
+    }
+
+    public String selcetByName(String username){
+        return userMapper.selectByName(username);
     }
 }
