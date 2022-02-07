@@ -21,4 +21,5 @@ public class Account {
     private String password;
     private String email;
     private String salt;
+    private Integer role;
 }

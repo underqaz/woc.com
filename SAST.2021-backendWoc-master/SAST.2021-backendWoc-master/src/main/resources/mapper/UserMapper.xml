@@ -20,12 +20,13 @@
     </select>
 
     <insert id="insert">
-        insert into Account (id,username,password,email,salt) values(#{id},#{username},#{password},#{email
-        },#{salt})
+        insert into Account (id,username,password,email,salt,role) values(#{id},#{username},#{password},#{email
+        },#{salt},#{role})
     </insert>
 
     <select id="findAccount" resultType="com.example.woc.entity.Account">
         select * from account where username=#{username};
     </select>
+
 
 </mapper>

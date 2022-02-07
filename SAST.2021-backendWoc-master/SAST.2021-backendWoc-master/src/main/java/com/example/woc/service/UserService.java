@@ -2,6 +2,8 @@ package com.example.woc.service;
 
 import com.example.woc.entity.Account;
 import com.example.woc.mapper.UserMapper;
+import com.example.woc.service.exception.*;
+import com.example.woc.utils.JsonResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
@@ -23,44 +25,59 @@ public class UserService {
         userMapper.test(test);
     }
 
-    public void register(Account account){
+    public void register(Account account) throws UserException{
       String username = userMapper.selectByName(account.getUsername());
        if(username!=null&&username.equals(account.getUsername())){
            System.out.println("用户名已存在");
-           return;
+           throw new UsernameDuplicateException();
        }else if(username==null){
            String salt= UUID.randomUUID().toString().toUpperCase();
            account.setSalt(salt);
+           account.setRole(0);
            account.setPassword(encrypt(salt,account.getPassword()));
-           userMapper.insert(account);
+           if(userMapper.insert(account)!=1) throw new InsertException();
            System.out.println("注册成功");
        }
-
     }
 
     public String encrypt(String salt,String password){
-        DigestUtils.md5DigestAsHex((salt + password + salt).getBytes()).toUpperCase();
+//        DigestUtils.md5DigestAsHex((salt + password + salt).getBytes()).toUpperCase();
         for(int i=0;i<3;i++){
             password=DigestUtils.md5DigestAsHex((salt+password+salt).getBytes()).toUpperCase();
         }
         return password;
     }
 
-    public boolean load(Account account) {
-        String username=userMapper.selectByName(account.getUsername());
-        if (username!=null) {
+    public Account load(Account account) throws UserException {
+        String username = userMapper.selectByName(account.getUsername());
+        if (username == null) {
+            throw new UserNotFoundException();
+        } else {
             Account a = userMapper.findAccount(username);
             String password = encrypt(a.getSalt(), account.getPassword());
-            if (a.getPassword().equals(password)) {
-                System.out.println("登陆成功！");
-                return true;
+            if (!a.getPassword().equals(password)) {
+                throw new PasswordNotMatchException();
+            } else {
+//                return new JsonResult<Boolean>(200, true, "登陆成功");
+                return a;
             }
-            else return false;
-        }else {
-            System.out.println("用户名不存在");
-            return false;
+//        }
+//        if (username!=null) {
+//            Account a = userMapper.findAccount(username);
+//            String password = encrypt(a.getSalt(), account.getPassword());
+//            if (a.getPassword().equals(password)) {
+//                System.out.println("登陆成功！");
+//                return new JsonResult<Boolean>(200,true,"登陆成功");
+//            }
+//            else {
+//                System.out.println("密码错误");
+//                return new JsonResult<Boolean>(300, false, "密码错误");
+//            }
+//        }else {
+//            System.out.println("用户名不存在");
+//            return new JsonResult<Boolean>(400, false, "用户名不存在");
+//        }
         }
-
     }
 
     public Integer getAmount(){
@@ -71,7 +88,7 @@ public class UserService {
        return userMapper.deleteByName(username);
     }
 
-    public String selcetByName(String username){
+    public String selectByName(String username){
         return userMapper.selectByName(username);
     }
 }

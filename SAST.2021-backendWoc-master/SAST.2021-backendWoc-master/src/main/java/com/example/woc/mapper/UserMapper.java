@@ -21,7 +21,7 @@ public interface UserMapper {
 
     String selectByName(@Param("username") String username);
 
-    void insert(Account account);
+    Integer insert(Account account);
 
     Account findAccount(@Param("username") String username);
 }
