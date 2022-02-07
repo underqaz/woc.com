@@ -2,8 +2,7 @@ package com.example.woc.service;
 
 import com.example.woc.entity.Account;
 import com.example.woc.mapper.UserMapper;
-import com.example.woc.service.exception.*;
-import com.example.woc.utils.JsonResult;
+import com.example.woc.exception.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;

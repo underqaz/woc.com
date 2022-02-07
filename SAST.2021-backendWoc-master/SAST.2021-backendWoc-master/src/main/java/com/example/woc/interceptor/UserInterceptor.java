@@ -3,9 +3,9 @@ package com.example.woc.interceptor;
 
 import com.example.woc.entity.Account;
 import com.example.woc.mapper.UserMapper;
-import com.example.woc.service.exception.UserException;
-import com.example.woc.service.exception.UserMightDeficiencyException;
-import com.example.woc.service.exception.UserNotLoginException;
+import com.example.woc.exception.UserException;
+import com.example.woc.exception.UserMightDeficiencyException;
+import com.example.woc.exception.UserNotLoginException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;

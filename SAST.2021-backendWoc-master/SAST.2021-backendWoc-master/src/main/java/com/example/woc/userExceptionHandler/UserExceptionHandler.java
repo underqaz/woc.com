@@ -1,6 +1,6 @@
 package com.example.woc.userExceptionHandler;
 
-import com.example.woc.service.exception.*;
+import com.example.woc.exception.*;
 import com.example.woc.utils.JsonResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;

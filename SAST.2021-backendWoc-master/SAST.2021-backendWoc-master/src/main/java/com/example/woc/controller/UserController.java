@@ -3,13 +3,10 @@ package com.example.woc.controller;
 import com.example.woc.entity.Account;
 import com.example.woc.entity.User;
 import com.example.woc.service.UserService;
-import com.example.woc.service.exception.UserException;
+import com.example.woc.exception.UserException;
 import com.example.woc.utils.JsonResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
